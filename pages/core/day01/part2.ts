@@ -1,7 +1,7 @@
 import { assert } from "tsafe";
-import { sortNumberDsc, sumFunction } from "../util/array";
-import { RETOUR_LIGNE } from "../util/constantes";
-import { parseInt } from "../util/map";
+import { sortNumberDsc, sumFunction } from "core/util/array";
+import { RETOUR_LIGNE } from "core/util/constantes";
+import { parseInt } from "core/util/map";
 import { input } from "./input";
 
 const elvesWeight = input

@@ -1,7 +1,7 @@
 import { assert } from "tsafe/assert";
-import { parseInt } from "../util/map";
-import { sumFunction } from "../util/array";
-import { RETOUR_LIGNE } from "../util/constantes";
+import { parseInt } from "core/util/map";
+import { sumFunction } from "core/util/array";
+import { RETOUR_LIGNE } from "core/util/constantes";
 import { input } from "./input";
 const elvesWeight = input
   .split(RETOUR_LIGNE + RETOUR_LIGNE)
