@@ -1,3 +1,7 @@
+import { assert } from "tsafe";
 import { input } from "./input";
+import { calcScoreTotalWithStrategy } from "./util";
 
-export default true;
+const result = calcScoreTotalWithStrategy(input);
+assert(result === 14979);
+export default result;
