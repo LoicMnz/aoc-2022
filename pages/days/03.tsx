@@ -4,7 +4,7 @@ import part2 from "core/day03/part2";
 
 const Day3 = () => (
   <Layout>
-    <h1>Day 3</h1>
+    <h1>Day 3: Rucksack Reorganization</h1>
     <h2>Partie 1</h2>
     {part1}
     <h2>Partie 2</h2>
