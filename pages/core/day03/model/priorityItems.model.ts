@@ -6,7 +6,7 @@ export class PriorityItem {
         assert(scoreArray.includes(item));
         this.item = item;
     }
-    findPriority = () => {
+    getScore = () => {
         const index = scoreArray.findIndex((e) => e === this.item);
         return index + 1;
     };

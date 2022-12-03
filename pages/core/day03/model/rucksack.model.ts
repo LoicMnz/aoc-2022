@@ -1,4 +1,5 @@
 import { assert } from "tsafe";
+import { PriorityItem } from "./priorityItems.model";
 
 export class Rucksack {
   private compartiment1: string;
@@ -16,7 +17,7 @@ export class Rucksack {
   findCommonItem = () => {
     for (const letter of this.compartiment1.split("")) {
       if (this.compartiment2.includes(letter)) {
-        return letter;
+        return new PriorityItem(letter);
       }
     }
     assert(false, "should not be here");
