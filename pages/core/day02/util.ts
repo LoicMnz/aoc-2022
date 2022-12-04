@@ -1,4 +1,4 @@
-import { sumFunction } from "core/util/array";
+import { reduceSum } from "core/util/array";
 import { RETOUR_LIGNE } from "core/util/constantes";
 
 enum MyChoice {
@@ -136,7 +136,7 @@ export const calcScoreTotal = (input: string) => {
     const choix = ligne.split(" ");
     return { m: parseMyChoice(choix[1]), e: parseElfChoice(choix[0]) };
   });
-  return rounds.map((e) => calcRoundScore(e.m, e.e)).reduce(sumFunction);
+  return rounds.map((e) => calcRoundScore(e.m, e.e)).reduce(reduceSum);
 };
 
 export const calcScoreTotalWithStrategy = (input: string) => {
@@ -148,5 +148,5 @@ export const calcScoreTotalWithStrategy = (input: string) => {
     return { m: makeMyDecision(elfChoice, strategy), e: elfChoice };
   });
 
-  return rounds.map((e) => calcRoundScore(e.m, e.e)).reduce(sumFunction);
+  return rounds.map((e) => calcRoundScore(e.m, e.e)).reduce(reduceSum);
 };
