@@ -1,4 +1,8 @@
-export const sortNumberAsc = (a: number, b: number): number => a - b;
-export const sortNumberDsc = (a: number, b: number): number => b - a;
-export const reduceSum = (a: number, b: number): number => a + b;
-export const reduceCount = (a: number, b: boolean): number => a + Number(b);
+export const sort = {
+  numberAsc: (a: number, b: number): number => a - b,
+  numberDsc: (a: number, b: number): number => b - a,
+};
+export const reduce = {
+  sum: (a: number, b: number): number => a + b,
+  countTrue: (a: number, b: boolean): number => a + Number(b),
+};

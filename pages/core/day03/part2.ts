@@ -1,4 +1,4 @@
-import { reduceSum } from "core/util/array";
+import { reduce } from "core/util/array";
 import { RETOUR_LIGNE } from "core/util/constantes";
 import { assert } from "tsafe";
 import { input } from "./input";
@@ -18,7 +18,7 @@ for (let index = 0; index < rucksacks.length; index += 3) {
 const result = groups
   .map((group) => group.findCommonItem())
   .map((item) => item.getScore())
-  .reduce(reduceSum);
+  .reduce(reduce.sum);
 
 assert(result === 2738);
 export default result;

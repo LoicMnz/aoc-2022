@@ -1,12 +1,13 @@
 import { assert } from "tsafe";
-import { sortNumberDsc, reduceSum } from "core/util/array";
+import { sort, reduce } from "core/util/array";
 import { RETOUR_LIGNE } from "core/util/constantes";
-import { parseInt } from "core/util/map";
+
 import { input } from "./input";
+import { parseNumber } from "core/util/type";
 
 const elvesWeight = input
   .split(RETOUR_LIGNE + RETOUR_LIGNE)
-  .map((e) => e.split(RETOUR_LIGNE).map(parseInt).reduce(reduceSum, 0));
-const result = elvesWeight.sort(sortNumberDsc).slice(0, 3).reduce(reduceSum);
+  .map((e) => e.split(RETOUR_LIGNE).map(parseNumber).reduce(reduce.sum, 0));
+const result = elvesWeight.sort(sort.numberDsc).slice(0, 3).reduce(reduce.sum);
 assert(result === 213958);
 export default result;
