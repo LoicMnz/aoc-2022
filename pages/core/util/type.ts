@@ -1,6 +1,9 @@
-import Joi from "joi";
+import { z } from "zod";
+import { isEmpty } from "./object";
 
-const parse = <E>(data: unknown, option: Joi.AnySchema<E>) =>
-  Joi.attempt(data, option);
-export const parseNumber = (data: unknown) =>
-  parse(data, Joi.number().presence("required"));
+export const parseNumber = (data: unknown) => {
+  if (isEmpty(data)) {
+    throw Error(`Can’t convert ${data} in number`);
+  }
+  return z.coerce.number().parse(data);
+};
