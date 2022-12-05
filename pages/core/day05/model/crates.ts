@@ -1,5 +1,4 @@
 import { RETOUR_LIGNE } from "core/util/constantes";
-import { assert } from "tsafe";
 import { z } from "zod";
 import { nbCrate as nbCrates } from "../variable";
 import { Crate, crateSchema, getCrateString, itemSchema } from "./crate";
@@ -13,17 +12,20 @@ export const cratesSchema = z.object({
 const craneEnum = z.enum(["9000", "9001"]);
 type craneEnum = z.infer<typeof craneEnum>;
 export class Crates implements z.TypeOf<typeof cratesSchema> {
-  crates;
-  moves;
+  crates = [] as Crate[];
+  moves = [] as Move[];
 
   constructor(inputCrates: string, inputMoves: string) {
-    this.crates = this.parseCrates(inputCrates);
-    this.moves = this.parseMoves(inputMoves);
+    this.parseCrates(inputCrates);
+    this.parseMoves(inputMoves);
   }
 
   getCrate(index: number) {
-    const crate = this.crates.at(index);
-    assert(crate !== undefined);
+    const crate = this.crates[index];
+    if (crate === undefined) {
+      this.crates[index] = new Crate();
+      return this.crates[index];
+    }
     return crate;
   }
   makeMove = (move: Move, model: craneEnum) => {
@@ -44,14 +46,11 @@ export class Crates implements z.TypeOf<typeof cratesSchema> {
   };
 
   parseMoves = (inputMoves: string) => {
-    return inputMoves.split(RETOUR_LIGNE).map((line) => new Move(line));
+    inputMoves
+      .split(RETOUR_LIGNE)
+      .forEach((line) => this.moves.push(new Move(line)));
   };
   parseCrates = (inputCrates: string) => {
-    const cratesArray: Crate[] = [];
-    for (let index = 0; index < nbCrates; index++) {
-      cratesArray.push(new Crate());
-    }
-
     inputCrates
       .split(RETOUR_LIGNE)
       .reverse()
@@ -60,13 +59,11 @@ export class Crates implements z.TypeOf<typeof cratesSchema> {
           const currentItem = itemSchema.safeParse(
             ligne.charAt(getCrateString(j))
           );
-          const currentCrate = cratesArray.at(j);
-          assert(currentCrate !== undefined);
           if (currentItem.success) {
+            const currentCrate = this.getCrate(j);
             currentCrate.add(currentItem.data);
           }
         }
       });
-    return cratesArray;
   };
 }
