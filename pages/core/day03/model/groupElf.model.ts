@@ -1,5 +1,5 @@
 import { assert } from "tsafe";
-import { PriorityItem } from "./priorityItems.model";
+import { Item } from "./item.model";
 export class GroupElf {
   ruckstack1: string[];
   ruckstack2: string[];
@@ -16,7 +16,7 @@ export class GroupElf {
         this.ruckstack2.includes(iterator) &&
         this.ruckstack3.includes(iterator)
       ) {
-        return new PriorityItem(iterator);
+        return new Item(iterator);
       }
     }
     assert(false, "should not be here");

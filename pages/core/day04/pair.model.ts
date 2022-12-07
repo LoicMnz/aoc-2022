@@ -1,13 +1,20 @@
-import { Section } from "./section.model";
+import { z } from "zod";
+import { Section, sectionType } from "./section.model";
 
-export class Pair {
-  private section1: Section;
-  private section2: Section;
+const pairType = z.object({
+  section1: sectionType,
+  section2: sectionType,
+});
+
+export class Pair implements z.TypeOf<typeof pairType> {
+  section1: Section;
+  section2: Section;
 
   constructor(line: string) {
     const [section1, section2] = line.split(",").map((e) => new Section(e));
     this.section1 = section1;
     this.section2 = section2;
+    z.instanceof(Pair).parse(this);
   }
   public hasFullyOverlap = () => {
     if (
