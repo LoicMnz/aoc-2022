@@ -5,4 +5,5 @@ export const sort = {
 export const reduce = {
   sum: (a: number, b: number): number => a + b,
   countTrue: (a: number, b: boolean): number => a + Number(b),
+  min: (a: number, b: number): number => (a < b ? a : b),
 };
