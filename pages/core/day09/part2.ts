@@ -15,4 +15,4 @@ input.split(RETOUR_LIGNE).forEach((ligne) => {
 });
 assert(rope.posTail.size === 2536);
 
-export default rope.posTail.size;
+export default rope.posTail;
