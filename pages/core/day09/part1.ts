@@ -13,5 +13,5 @@ input.split(RETOUR_LIGNE).forEach((ligne) => {
     rope.makeMove(direction);
   }
 });
-//assert(rope.posTail.size === 6367);
+assert(rope.posTail.size === 6367);
 export default rope.posTail;

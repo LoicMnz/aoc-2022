@@ -1,7 +1,8 @@
 export const Table = ({ tab }: { tab: string[][] }) => {
+  const reverseTab = [...tab].reverse();
   return (
     <pre>
-      {tab.reverse().map((line, index) => (
+      {reverseTab.map((line, index) => (
         <p key={index}>{line.join("")}</p>
       ))}
     </pre>
