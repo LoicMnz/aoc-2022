@@ -3,7 +3,9 @@ export const Table = ({ tab }: { tab: string[][] }) => {
   return (
     <pre>
       {reverseTab.map((line, index) => (
-        <p key={index}>{line.join("")}</p>
+        <p style={{ fontSize: 4 }} key={index}>
+          {line.join("")}
+        </p>
       ))}
     </pre>
   );
