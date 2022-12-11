@@ -2,14 +2,13 @@ import { RETOUR_LIGNE } from "core/util/constantes";
 import { Monkey } from "./Monkey.model";
 import { assert } from "tsafe";
 
-import { reduce } from "core/util/array";
 const lcm = require("compute-lcm");
 export class Playground {
   monkeys: Monkey[];
-  ppcmItemScores: number;
+  ppcmConditionValue: number;
   constructor() {
     this.monkeys = [];
-    this.ppcmItemScores = 0;
+    this.ppcmConditionValue = 0;
   }
   init(monkeys: string[]) {
     monkeys
@@ -24,7 +23,7 @@ export class Playground {
           new Monkey(itemsLine, operationLine, condition, ifTrue, ifFalse)
         );
       });
-    this.ppcmItemScores = lcm(this.monkeys.map((m) => m.condition));
+    this.ppcmConditionValue = lcm(this.monkeys.map((m) => m.condition));
   }
 
   round(divideWorry: boolean) {
@@ -32,7 +31,7 @@ export class Playground {
       for (let index = 0; index < m.items.length; index++) {
         const i = m.items[index];
         i.applyOperation(m.operation, divideWorry);
-        i.score = i.score % this.ppcmItemScores;
+        i.score = i.score % this.ppcmConditionValue;
         const newMonkeyIndex = m.applyCondition(i);
         const newMonkey = this.monkeys.at(newMonkeyIndex);
         assert(newMonkey !== undefined);
