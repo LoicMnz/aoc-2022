@@ -12,11 +12,6 @@ export class Item implements ItemType {
   };
 }
 
-for (let index = 0; index < 5; index++) {
-  const element = index;
-  console.log(element + 1 / 2);
-}
-
 const scoreArray = [
   "a",
   "b",
