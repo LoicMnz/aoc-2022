@@ -22,7 +22,7 @@ const resultTab = grid.trees.map((ligne, i) => {
 
 const result = resultTab
   .map((ligne) => ligne.reduce(reduce.countTrue, 0))
-  .reduce(reduce.countTrue, 0);
+  .reduce(reduce.sum, 0);
 
 assert(result === 1832);
 export default result;
