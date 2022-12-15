@@ -8,6 +8,7 @@ specifiers:
   eslint: 8.28.0
   eslint-config-next: 13.0.5
   next: 13.0.5
+  ranges-merge: ^9.0.2
   react: 18.2.0
   react-dom: 18.2.0
   tsafe: ^1.4.1
@@ -22,6 +23,7 @@ dependencies:
   eslint: 8.28.0
   eslint-config-next: 13.0.5_hsf322ms6xhhd4b5ne6lb74y4a
   next: 13.0.5_biqbaboplfbrettd7655fr4n2y
+  ranges-merge: 9.0.2
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   tsafe: 1.4.1
@@ -151,6 +153,7 @@ packages:
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
     requiresBuild: true
     dev: false
     optional: true
@@ -160,6 +163,7 @@ packages:
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
     requiresBuild: true
     dev: false
     optional: true
@@ -169,6 +173,7 @@ packages:
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
     requiresBuild: true
     dev: false
     optional: true
@@ -178,6 +183,7 @@ packages:
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
     requiresBuild: true
     dev: false
     optional: true
@@ -1679,6 +1685,27 @@ packages:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
     dev: false
 
+  /ranges-merge/9.0.2:
+    resolution: {integrity: sha512-IPrpHluM/IP1DLbA4ecytYX4OkxV9jNCIRbABnP6yHFnWvWkLr1v/aFPPCh2xjoJJSOhaScqBizvHefHTviijg==}
+    engines: {node: '>=14.18.0'}
+    dependencies:
+      ranges-push: 7.0.2
+      ranges-sort: 6.0.2
+    dev: false
+
+  /ranges-push/7.0.2:
+    resolution: {integrity: sha512-HOlycULnnTGA1i7csNFy2qZDLOWNZPRy90799n0pW9nYf+QcQB9iRjLYCCXG0Kh7pAOaGsiz7vbfXwJwRavYEQ==}
+    engines: {node: '>=14.18.0'}
+    dependencies:
+      string-collapse-leading-whitespace: 7.0.2
+      string-trim-spaces-only: 5.0.2
+    dev: false
+
+  /ranges-sort/6.0.2:
+    resolution: {integrity: sha512-j58dqRwerzYzoNS/1YQYawDAsO8GEiUTRnHtthkbfEbk1JHuO5qrIpGxQWCf3+KO1zW5u6/JNxD1WS/cySTChQ==}
+    engines: {node: '>=14.18.0'}
+    dev: false
+
   /react-dom/18.2.0_react@18.2.0:
     resolution: {integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==}
     peerDependencies:
@@ -1819,6 +1846,16 @@ packages:
   /source-map-js/1.0.2:
     resolution: {integrity: sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==}
     engines: {node: '>=0.10.0'}
+    dev: false
+
+  /string-collapse-leading-whitespace/7.0.2:
+    resolution: {integrity: sha512-nnXqevvnbGErVg2OPrP64o4h/KesUaGaP7ej0Xi+/xEvXPSBS6VX6aP0KfQGtiH8p9posnowIgXs+wvyw93WtA==}
+    engines: {node: '>=14.18.0'}
+    dev: false
+
+  /string-trim-spaces-only/5.0.2:
+    resolution: {integrity: sha512-BvF0NJuMGR6dZd6+v5Id2LzQQaYeiO/eeZooGogjOjgkz9ecokWkaxB5I1yBKh1EwR/6JcetsFd6ANBNI2nTQg==}
+    engines: {node: '>=14.18.0'}
     dev: false
 
   /string.prototype.matchall/4.0.8:
