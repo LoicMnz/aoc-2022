@@ -1,7 +1,7 @@
 import { reduce } from "core/util/array";
 import { RETOUR_LIGNE } from "core/util/constantes";
 import { parseNumber } from "core/util/type";
-import { input, inputEx } from "./input";
+import { input } from "./input";
 
 type Valve = {
   id: string;
@@ -12,12 +12,27 @@ type Valve = {
 
 type State = {
   time: number;
-  timeConsuming: [number, number];
   flow: number;
-  node: [Valve, Valve];
+  node: Valve;
   openValves: Valve[];
 };
 
+const serializePath = (path: Valve[]) => {
+  return path
+    .map((v) => v.id)
+    .sort()
+    .join(",");
+};
+const paths = new Map<string, number>();
+const addResult = (path: Valve[], flow: number) => {
+  const s = serializePath(path);
+
+  let currentFlow = paths.get(s) || 0;
+
+  if (flow > currentFlow) {
+    paths.set(s, flow);
+  }
+};
 const valves: Valve[] = [];
 const getValve = (id: string) => {
   let valve;
@@ -53,7 +68,7 @@ const bfs = (valve: Valve) => {
   }
 };
 
-const calcFlow = (openValves: Valve[]) => {
+const calcRate = (openValves: Valve[]) => {
   return openValves.map((v) => v.rate).reduce(reduce.sum, 0);
 };
 input.split(RETOUR_LIGNE).map((line) => {
@@ -68,21 +83,12 @@ input.split(RETOUR_LIGNE).map((line) => {
 valves.forEach((v, k) => {
   bfs(v);
 });
-const addCurrentValve = (currentValves: Valve[], ...valves: Valve[]) => {
-  let result = currentValves;
-  for (const v of valves) {
-    if (!result.includes(v)) {
-      result = [...result, v];
-    }
-  }
-  return result;
-};
+
 const time = 26;
 let maxFlow = 0;
 const state: State = {
-  node: [getValve("AA"), getValve("AA")],
+  node: getValve("AA"),
   time,
-  timeConsuming: [0, 0],
   flow: 0,
   openValves: [],
 };
@@ -93,100 +99,48 @@ while (queue.length > 0) {
   const valveAvailable: Valve[] = valves.filter(
     (v) => v.rate > 0 && !current.openValves.includes(v)
   );
-  // console.log("taille openvalve", current.openValves.length);
   // condition d’arrêt tout visité
   if (valveAvailable.length === 0) {
-    const flow = current.flow + current.time * calcFlow(current.openValves);
-    if (flow > maxFlow) {
-      console.log(flow);
-      maxFlow = flow;
-    }
+    const flow = current.flow + current.time * calcRate(current.openValves);
+    addResult(current.openValves, flow);
   }
-  for (const currentValveMe of valveAvailable) {
-    for (const currentValveElephant of valveAvailable) {
-      if (
-        currentValveMe !== currentValveElephant ||
-        valveAvailable.length === 1
-      ) {
-        const timeStepMe =
-          current.node[0].paths.get(currentValveMe)! +
-          1 -
-          current.timeConsuming[0];
-        const timeStepElephant =
-          current.node[1].paths.get(currentValveElephant)! +
-          1 -
-          current.timeConsuming[1];
-        if (timeStepMe > 0 && timeStepElephant > 0) {
-          // condition d’arrêt par le temps
-          if (
-            current.time - timeStepMe <= 0 &&
-            current.time - timeStepElephant <= 0
-          ) {
-            const flow =
-              current.flow + current.time * calcFlow(current.openValves);
-            if (flow > maxFlow) {
-              maxFlow = flow;
-            }
-          } else if (current.time - timeStepMe <= 0) {
-            // elephant opens valve, me do nothing
-            queue.push({
-              flow:
-                current.flow + timeStepElephant * calcFlow(current.openValves),
-              time: current.time - timeStepElephant,
-              timeConsuming: [0, 0],
-              node: [current.node[0], currentValveElephant],
-              openValves: addCurrentValve(
-                current.openValves,
-                currentValveElephant
-              ),
-            });
-          } else if (current.time - timeStepElephant <= 0) {
-            // elephant does nothing, me open valve
-            queue.push({
-              flow: current.flow + timeStepMe * calcFlow(current.openValves),
-              time: current.time - timeStepMe,
-              timeConsuming: [0, 0],
-              node: [currentValveMe, current.node[1]],
-              openValves: addCurrentValve(current.openValves, currentValveMe),
-            });
-          } else if (timeStepElephant === timeStepMe) {
-            queue.push({
-              flow: current.flow + timeStepMe * calcFlow(current.openValves),
-              time: current.time - timeStepMe,
-              timeConsuming: [0, 0],
-              node: [currentValveMe, currentValveElephant],
-              openValves: addCurrentValve(
-                current.openValves,
-                currentValveElephant,
-                currentValveMe
-              ),
-            });
-          } else if (timeStepMe < timeStepElephant) {
-            queue.push({
-              flow: current.flow + timeStepMe * calcFlow(current.openValves),
-              time: current.time - timeStepMe,
-              timeConsuming: [0, timeStepMe + current.timeConsuming[1]],
-              node: [currentValveMe, current.node[1]],
-              openValves: addCurrentValve(current.openValves, currentValveMe),
-            });
-          } else {
-            // timeStepMe > timeStepElephant
-            queue.push({
-              flow:
-                current.flow + timeStepElephant * calcFlow(current.openValves),
-              time: current.time - timeStepElephant,
-              timeConsuming: [timeStepElephant + current.timeConsuming[0], 0],
-              node: [current.node[0], currentValveElephant],
-              openValves: addCurrentValve(
-                current.openValves,
-                currentValveElephant
-              ),
-            });
-          }
-        }
-      }
+  for (const currentValve of valveAvailable) {
+    const timeStep = current.node.paths.get(currentValve)! + 1;
+    // condition d’arrêt par le temps
+    if (current.time - timeStep <= 0) {
+      const flow = current.flow + current.time * calcRate(current.openValves);
+      addResult(current.openValves, flow);
+    } else {
+      queue.push({
+        flow: current.flow + timeStep * calcRate(current.openValves),
+        time: current.time - timeStep,
+        node: currentValve,
+        openValves: [...current.openValves, currentValve],
+      });
     }
   }
 }
 
-export default maxFlow;
+const testTableDisjoint = (a: string[], b: string[]) => {
+  for (const element of a) {
+    if (b.includes(element)) {
+      return false;
+    }
+  }
+
+  return true;
+};
+let result = 0;
+paths.forEach((i, a) => {
+  paths.forEach((j, b) => {
+    if (testTableDisjoint(a.split(","), b.split(","))) {
+      const sum = i + j;
+      if (result < sum) {
+        result = sum;
+      }
+    }
+  });
+});
+
+console.log(result);
+export default result;
